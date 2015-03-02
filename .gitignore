@@ -1,4 +1,4 @@
 .classpath
 .project
-.class
+*.class
 UCR_ARFF/
