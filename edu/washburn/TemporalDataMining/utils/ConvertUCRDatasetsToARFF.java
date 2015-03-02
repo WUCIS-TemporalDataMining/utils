@@ -39,7 +39,7 @@ public class ConvertUCRDatasetsToARFF {
 		getFiles(args[0], datasets);
 		for(File dataset : datasets) {
 			String[] partsOfPath = dataset.getCanonicalPath().split("/");
-			String currentDirectory = partsOfPath[partsOfPath.length - 1];
+			String currentDirectory = partsOfPath[partsOfPath.length - 2];
 			File subDirectory = new File(newBaseDirectory, currentDirectory);
 			if(!subDirectory.exists()) {
 				subDirectory.mkdir();
