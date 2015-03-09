@@ -9,6 +9,8 @@ package edu.washburn.TemporalDataMining.utils;
 import weka.core.Instances;
 import weka.core.converters.ArffSaver;
 import weka.core.converters.MatlabLoader;
+import weka.filters.Filter;
+import weka.filters.unsupervised.attribute.NumericToNominal;
  
 import java.io.File;
 import java.util.ArrayList;
@@ -47,6 +49,12 @@ public class ConvertUCRDatasetsToARFF {
 			MatlabLoader loader = new MatlabLoader();
 			loader.setSource(dataset);
 			Instances data = loader.getDataSet();
+			
+			NumericToNominal converter = new NumericToNominal();
+			converter.setAttributeIndices("1");
+			converter.setInputFormat(data);
+			
+			data = Filter.useFilter(data, converter);
 			
 			ArffSaver saver = new ArffSaver();
 		    saver.setInstances(data);
