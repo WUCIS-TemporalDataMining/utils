@@ -50,13 +50,14 @@ public class MirrorUCRDatasets {
 			data.setClassIndex(0);
 			
 			int powerOfTwo = 1;
-			while(powerOfTwo < data.numAttributes()) {
+			// -1 because we don't want to consider class attribute
+			while(powerOfTwo < data.numAttributes() - 1) {
 				powerOfTwo <<= 1;
 			}
 			
-			int originalNumAttributes = data.numAttributes();
+			int originalNumAttributes = data.numAttributes() - 1;
 			// Add attributes until numAttributes() = power of two
-			for(int i = 0; data.numAttributes() < powerOfTwo; i++) {
+			for(int i = 0; data.numAttributes() - 1 < powerOfTwo; i++) {
 				data.insertAttributeAt(new Attribute("attr_mirror_" + i), data.numAttributes());
 			}
 			
