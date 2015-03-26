@@ -54,27 +54,25 @@ public class MirrorUCRDatasets {
 				powerOfTwo <<= 1;
 			}
 			
-			for(int i = 0; i < powerOfTwo - data.numAttributes(); i++) {
+			int originalNumAttributes = data.numAttributes();
+			// Add attributes until numAttributes() = power of two
+			for(int i = 0; data.numAttributes() < powerOfTwo; i++) {
 				data.insertAttributeAt(new Attribute("attr_mirror_" + i), data.numAttributes());
 			}
 			
 			for(int i = 0; i < data.numInstances(); i++) {
 				double classValue = data.get(i).classValue();
 				// Need to take all attributes - class attribute, where class attribute is index 0
-				double[] mirroredInstance = mirrorToPowerOfTwo(Arrays.copyOfRange(data.get(i).toDoubleArray(), 1, data.get(i).toDoubleArray().length));
+				double[] mirroredInstance = mirrorToPowerOfTwo(Arrays.copyOfRange(data.get(i).toDoubleArray(), 1, originalNumAttributes));
 				double[] mirroredInstanceWithClassAttr = new double[mirroredInstance.length + 1];
 				mirroredInstanceWithClassAttr[0] = classValue;
 				for(int ii = 1; ii < mirroredInstanceWithClassAttr.length; ii++) {
 					mirroredInstanceWithClassAttr[ii] = mirroredInstance[ii - 1];
 				}
 				
-				Instance newInstance = new DenseInstance(mirroredInstanceWithClassAttr.length);
-				newInstance.setDataset(data);
-				newInstance.setClassValue(classValue);
-				for(int ii = 1; ii < mirroredInstanceWithClassAttr.length; ii++) {
-					newInstance.setValue(ii - 1, mirroredInstanceWithClassAttr[ii]);
+				for(int ii = 1; ii < mirroredInstance.length; ii++) {
+					data.instance(i).setValue(ii, mirroredInstance[ii - 1]);
 				}
-				data.set(i, newInstance);
 			}
 			
 			ArffSaver saver = new ArffSaver();
