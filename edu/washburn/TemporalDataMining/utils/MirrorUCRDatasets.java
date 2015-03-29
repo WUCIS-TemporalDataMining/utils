@@ -71,8 +71,8 @@ public class MirrorUCRDatasets {
 					mirroredInstanceWithClassAttr[ii] = mirroredInstance[ii - 1];
 				}
 				
-				for(int ii = 1; ii < mirroredInstance.length; ii++) {
-					data.instance(i).setValue(ii, mirroredInstance[ii - 1]);
+				for(int ii = 1; ii < mirroredInstanceWithClassAttr.length; ii++) {
+					data.instance(i).setValue(ii, mirroredInstanceWithClassAttr[ii]);
 				}
 			}
 			
